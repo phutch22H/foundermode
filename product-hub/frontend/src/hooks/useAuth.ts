@@ -22,6 +22,8 @@ export function useAuth() {
   return ctx;
 }
 
+const API_BASE = ((import.meta as any).env?.VITE_API_URL || '') + '/api';
+
 export function useAuthState(): AuthContextValue {
   const [user, setUser] = useState<User | null>(null);
   const [token, setToken] = useState<string | null>(null);
@@ -38,7 +40,7 @@ export function useAuthState(): AuthContextValue {
   }, []);
 
   async function login(email: string, password: string) {
-    const res = await fetch('/api/auth/login', {
+    const res = await fetch(`${API_BASE}/auth/login`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ email, password }),
@@ -52,7 +54,7 @@ export function useAuthState(): AuthContextValue {
   }
 
   async function signup(email: string, password: string) {
-    const res = await fetch('/api/auth/signup', {
+    const res = await fetch(`${API_BASE}/auth/signup`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ email, password }),
