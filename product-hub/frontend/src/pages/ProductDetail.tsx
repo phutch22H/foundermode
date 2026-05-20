@@ -109,20 +109,10 @@ export default function ProductDetail() {
     setShowEdit(false);
   }
 
-  const connectSnippet = useCallback((dir: string) => {
-    const token = localStorage.getItem('ph_token') ?? '<your-token>';
-    const apiUrl = window.location.origin === 'http://localhost:5173'
-      ? 'http://localhost:3000'
-      : window.location.origin;
-    return JSON.stringify({
-      apiUrl,
-      token,
-      projects: { [dir || '/path/to/your/project']: product?.id },
-    }, null, 2);
-  }, [product?.id]);
+  const perProjectSnippet = JSON.stringify({ productId: product?.id }, null, 2);
 
-  function copySnippet(dir: string) {
-    navigator.clipboard.writeText(connectSnippet(dir));
+  function copySnippet() {
+    navigator.clipboard.writeText(perProjectSnippet);
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
   }
@@ -300,23 +290,17 @@ export default function ProductDetail() {
 
         {showConnect && (
           <div className="border-t border-neutral-800 p-5 space-y-4">
-            <div className="space-y-2">
-              <p className="text-xs text-neutral-500 leading-relaxed">
-                Create or update <code className="bg-neutral-800 px-1 py-0.5 rounded text-neutral-300">~/.founder-mode.json</code> with this content.
-                Each session started from that directory will automatically log to this product.
-              </p>
-              <p className="text-xs text-neutral-600">
-                Replace <code className="bg-neutral-800 px-1 py-0.5 rounded text-neutral-400">/path/to/your/project</code> with your actual directory.
-                To connect multiple products, add more entries to <code className="bg-neutral-800 px-1 py-0.5 rounded text-neutral-400">projects</code>.
-              </p>
-            </div>
+            <p className="text-xs text-neutral-500 leading-relaxed">
+              Drop a <code className="bg-neutral-800 px-1 py-0.5 rounded text-neutral-300">.founder-mode</code> file in your project root.
+              Sessions from that directory will automatically log here.
+            </p>
 
             <div className="relative">
               <pre className="bg-neutral-950 border border-neutral-800 rounded-lg p-4 text-xs text-neutral-400 font-mono overflow-x-auto leading-relaxed">
-                {connectSnippet('/path/to/your/project')}
+                {perProjectSnippet}
               </pre>
               <button
-                onClick={() => copySnippet('/path/to/your/project')}
+                onClick={() => copySnippet()}
                 className="absolute top-3 right-3 text-xs text-neutral-600 hover:text-neutral-300 bg-neutral-900 border border-neutral-700 px-2 py-1 rounded transition-colors"
               >
                 {copied ? 'Copied!' : 'Copy'}
