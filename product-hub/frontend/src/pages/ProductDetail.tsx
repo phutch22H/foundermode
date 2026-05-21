@@ -84,7 +84,7 @@ export default function ProductDetail() {
     setNotes(ns => ns.filter(n => n.id !== noteId));
   }
 
-  async function handleCreateRelease(data: { name: string; description: string; noteIds: string[]; released_at: string }) {
+  async function handleCreateRelease(data: { name: string; description: string; noteIds: string[]; released_at: string; type: string; build_number: string }) {
     if (!id) return;
     const release = await api.createRelease(id, data);
     setReleases(rs => [release, ...rs]);
@@ -414,9 +414,18 @@ function ReleaseCard({ release, onDelete }: { release: Release; onDelete: () => 
     <div className="bg-neutral-900 rounded-xl border border-neutral-800 overflow-hidden">
       <div className="p-5 flex items-start justify-between gap-3">
         <div className="flex-1 min-w-0">
-          <div className="flex items-center gap-3 flex-wrap">
+          <div className="flex items-center gap-2 flex-wrap">
             <h4 className="font-semibold text-neutral-100">{release.name}</h4>
-            <span className="text-xs bg-green-500/10 text-green-400 border border-green-500/20 font-medium px-2 py-0.5 rounded-full">
+            {release.type === 'ios' && (
+              <span className="text-xs bg-blue-500/10 text-blue-400 border border-blue-500/20 font-medium px-2 py-0.5 rounded-full">iOS</span>
+            )}
+            {release.type === 'android' && (
+              <span className="text-xs bg-green-500/10 text-green-400 border border-green-500/20 font-medium px-2 py-0.5 rounded-full">Android</span>
+            )}
+            {release.build_number && (
+              <span className="text-xs text-neutral-500 font-mono">#{release.build_number}</span>
+            )}
+            <span className="text-xs bg-neutral-800 text-neutral-500 border border-neutral-700 font-medium px-2 py-0.5 rounded-full">
               {release.tasks.length} {release.tasks.length === 1 ? 'item' : 'items'}
             </span>
           </div>

@@ -63,6 +63,8 @@ export interface ReleaseTask {
   created_at: string;
 }
 
+export type ReleaseType = 'ios' | 'android' | 'web';
+
 export interface Release {
   id: string;
   product_id: string;
@@ -71,6 +73,8 @@ export interface Release {
   description: string | null;
   released_at: string;
   created_at: string;
+  type: ReleaseType;
+  build_number: string | null;
   tasks: ReleaseTask[];
 }
 
@@ -126,7 +130,7 @@ export const api = {
 
   // Releases
   getReleases: (productId: string) => request<Release[]>(`/products/${productId}/releases`),
-  createRelease: (productId: string, data: { name: string; description?: string; noteIds: string[]; released_at?: string }) =>
+  createRelease: (productId: string, data: { name: string; description?: string; noteIds: string[]; released_at?: string; type?: string; build_number?: string }) =>
     request<Release>(`/products/${productId}/releases`, { method: 'POST', body: JSON.stringify(data) }),
   deleteRelease: (id: string) =>
     request<{ message: string }>(`/releases/${id}`, { method: 'DELETE' }),

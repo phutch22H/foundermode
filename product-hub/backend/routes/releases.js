@@ -46,7 +46,7 @@ router.get('/', async (req, res) => {
 
 // POST /api/products/:productId/releases
 router.post('/', async (req, res) => {
-  const { name, description, noteIds = [], released_at } = req.body;
+  const { name, description, noteIds = [], released_at, type = 'web', build_number } = req.body;
   if (!name?.trim()) return res.status(400).json({ error: 'Release name required' });
 
   const client = await pool.connect();
@@ -63,14 +63,16 @@ router.post('/', async (req, res) => {
     }
 
     const releaseResult = await client.query(
-      `INSERT INTO releases (product_id, user_id, name, description, released_at)
-       VALUES ($1, $2, $3, $4, $5) RETURNING *`,
+      `INSERT INTO releases (product_id, user_id, name, description, released_at, type, build_number)
+       VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *`,
       [
         req.params.productId,
         req.userId,
         name.trim(),
         description?.trim() || null,
         released_at || new Date(),
+        type,
+        build_number?.trim() || null,
       ]
     );
     const release = releaseResult.rows[0];

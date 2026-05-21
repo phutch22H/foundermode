@@ -81,6 +81,10 @@ async function initDB() {
       )
     `);
 
+    // Migrate releases table
+    await client.query(`ALTER TABLE releases ADD COLUMN IF NOT EXISTS type VARCHAR(50) DEFAULT 'web'`);
+    await client.query(`ALTER TABLE releases ADD COLUMN IF NOT EXISTS build_number VARCHAR(50)`);
+
     await client.query(`CREATE INDEX IF NOT EXISTS idx_releases_product ON releases(product_id)`);
 
     await client.query(`CREATE INDEX IF NOT EXISTS idx_products_user ON products(user_id)`);

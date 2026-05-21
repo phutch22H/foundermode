@@ -3,7 +3,7 @@ import { Note } from '../api';
 
 interface ReleaseModalProps {
   shippedTasks: Note[];
-  onSave: (data: { name: string; description: string; noteIds: string[]; released_at: string }) => Promise<void>;
+  onSave: (data: { name: string; description: string; noteIds: string[]; released_at: string; type: string; build_number: string }) => Promise<void>;
   onClose: () => void;
 }
 
@@ -13,6 +13,8 @@ const labelClass = 'block text-xs font-medium text-neutral-500 mb-1.5';
 export default function ReleaseModal({ shippedTasks, onSave, onClose }: ReleaseModalProps) {
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
+  const [type, setType] = useState('web');
+  const [buildNumber, setBuildNumber] = useState('');
   const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set(shippedTasks.map(t => t.id)));
   const [releasedAt, setReleasedAt] = useState(new Date().toISOString().slice(0, 16));
   const [saving, setSaving] = useState(false);
@@ -33,7 +35,7 @@ export default function ReleaseModal({ shippedTasks, onSave, onClose }: ReleaseM
     setSaving(true);
     setError('');
     try {
-      await onSave({ name: name.trim(), description: description.trim(), noteIds: Array.from(selectedIds), released_at: new Date(releasedAt).toISOString() });
+      await onSave({ name: name.trim(), description: description.trim(), noteIds: Array.from(selectedIds), released_at: new Date(releasedAt).toISOString(), type, build_number: buildNumber.trim() });
       onClose();
     } catch (err: unknown) {
       setError(err instanceof Error ? err.message : 'Failed to create release');
@@ -56,7 +58,24 @@ export default function ReleaseModal({ shippedTasks, onSave, onClose }: ReleaseM
 
             <div>
               <label className={labelClass}>Release Name *</label>
-              <input autoFocus type="text" value={name} onChange={e => setName(e.target.value)} placeholder="v1.0, May drop, Bug fix round..." className={inputClass} />
+              <input autoFocus type="text" value={name} onChange={e => setName(e.target.value)} placeholder="v1.0, Build 68, May drop..." className={inputClass} />
+            </div>
+
+            <div className="grid grid-cols-2 gap-3">
+              <div>
+                <label className={labelClass}>Type</label>
+                <select value={type} onChange={e => setType(e.target.value)} className={inputClass}>
+                  <option value="ios">iOS Build</option>
+                  <option value="android">Android Build</option>
+                  <option value="web">Web</option>
+                </select>
+              </div>
+              {(type === 'ios' || type === 'android') && (
+                <div>
+                  <label className={labelClass}>Build Number</label>
+                  <input type="text" value={buildNumber} onChange={e => setBuildNumber(e.target.value)} placeholder="68" className={inputClass} />
+                </div>
+              )}
             </div>
 
             <div>
