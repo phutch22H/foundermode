@@ -142,10 +142,12 @@ function buildEmailHtml(narrative, data, userEmail) {
     const builtList = p.built.slice(0, 5).map(b => `<li style="margin:2px 0;color:#a3a3a3;">${b}</li>`).join('');
     return `
       <div style="padding:16px 0;border-bottom:1px solid #262626;">
-        <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;">
-          <span style="font-weight:600;color:#f5f5f5;">${p.name}</span>
+        <div style="margin-bottom:8px;">
+          <div style="display:flex;align-items:center;gap:8px;">
+            <span style="font-weight:600;color:#f5f5f5;">${p.name}</span>
+            ${releaseStr}
+          </div>
           <span style="color:#525252;font-size:12px;">${p.sessionCount} session${p.sessionCount !== 1 ? 's' : ''}</span>
-          ${releaseStr}
         </div>
         ${builtList ? `<ul style="margin:0;padding-left:16px;font-size:13px;">${builtList}</ul>` : ''}
       </div>`;
