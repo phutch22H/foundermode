@@ -86,6 +86,33 @@ export interface Insight {
   created_at: string;
 }
 
+export interface DigestProduct {
+  id: string;
+  name: string;
+  sessionCount: number;
+  built: string[];
+  decisions: string[];
+  releases: { name: string; type: string; build_number: string | null }[];
+}
+
+export interface DigestData {
+  period: { from: string; to: string };
+  totalSessions: number;
+  activeProducts: DigestProduct[];
+  stagnant: { id: string; name: string; daysSince: number | null }[];
+  releases: { name: string; type: string; build_number: string | null; product_name: string }[];
+}
+
+export interface Digest {
+  id: string;
+  period_from: string;
+  period_to: string;
+  narrative: string;
+  sent_at: string | null;
+  created_at: string;
+  data?: DigestData;
+}
+
 export interface DashboardSummary {
   totalProducts: number;
   totalUsers: number;
@@ -140,6 +167,12 @@ export const api = {
   generateInsights: () => request<Insight>('/insights/generate', { method: 'POST' }),
   deleteInsight: (id: string) =>
     request<{ message: string }>(`/insights/${id}`, { method: 'DELETE' }),
+
+  // Digest
+  getDigests: () => request<Digest[]>('/digest'),
+  getDigest: (id: string) => request<Digest>(`/digest/${id}`),
+  generateDigest: () => request<Digest>('/digest/generate', { method: 'POST' }),
+  sendDigest: (id: string) => request<{ message: string }>(`/digest/${id}/send`, { method: 'POST' }),
 
   // Dashboard
   getDashboardSummary: () => request<DashboardSummary>('/dashboard/summary'),

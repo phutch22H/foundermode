@@ -13,6 +13,7 @@ const sections = [
     label: 'Build',
     links: [
       { to: '/activity', label: 'Activity' },
+      { to: '/digest', label: 'Digest' },
       { to: '/insights', label: 'Insights' },
     ],
   },

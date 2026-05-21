@@ -85,6 +85,20 @@ async function initDB() {
     await client.query(`ALTER TABLE releases ADD COLUMN IF NOT EXISTS type VARCHAR(50) DEFAULT 'web'`);
     await client.query(`ALTER TABLE releases ADD COLUMN IF NOT EXISTS build_number VARCHAR(50)`);
 
+    await client.query(`
+      CREATE TABLE IF NOT EXISTS digests (
+        id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+        user_id UUID NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+        period_from DATE NOT NULL,
+        period_to DATE NOT NULL,
+        content JSONB NOT NULL,
+        narrative TEXT NOT NULL,
+        sent_at TIMESTAMP,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+      )
+    `);
+
+    await client.query(`CREATE INDEX IF NOT EXISTS idx_digests_user ON digests(user_id)`);
     await client.query(`CREATE INDEX IF NOT EXISTS idx_releases_product ON releases(product_id)`);
 
     await client.query(`CREATE INDEX IF NOT EXISTS idx_products_user ON products(user_id)`);

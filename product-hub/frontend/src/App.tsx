@@ -8,6 +8,7 @@ import ProductContext from './pages/ProductContext';
 import Activity from './pages/Activity';
 import Insights from './pages/Insights';
 import Settings from './pages/Settings';
+import Digest from './pages/Digest';
 import Navigation from './components/Navigation';
 
 function ProtectedLayout({ children }: { children: React.ReactNode }) {
@@ -46,6 +47,7 @@ export default function App() {
           <Route path="/products/:id" element={<RequireAuth><ProtectedLayout><ProductDetail /></ProtectedLayout></RequireAuth>} />
           <Route path="/products/:id/context" element={<RequireAuth><ProtectedLayout><ProductContext /></ProtectedLayout></RequireAuth>} />
           <Route path="/activity" element={<RequireAuth><ProtectedLayout><Activity /></ProtectedLayout></RequireAuth>} />
+          <Route path="/digest" element={<RequireAuth><ProtectedLayout><Digest /></ProtectedLayout></RequireAuth>} />
           <Route path="/insights" element={<RequireAuth><ProtectedLayout><Insights /></ProtectedLayout></RequireAuth>} />
           <Route path="/settings" element={<RequireAuth><ProtectedLayout><Settings /></ProtectedLayout></RequireAuth>} />
           <Route path="*" element={<Navigate to={auth.user ? '/dashboard' : '/login'} replace />} />

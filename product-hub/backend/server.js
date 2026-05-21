@@ -8,6 +8,7 @@ const productRoutes = require('./routes/products');
 const { notesRouter, noteDeleteRouter } = require('./routes/notes');
 const { releasesRouter, releaseDeleteRouter } = require('./routes/releases');
 const insightRoutes = require('./routes/insights');
+const digestRoutes = require('./routes/digest');
 const auth = require('./middleware/auth');
 
 const app = express();
@@ -45,6 +46,9 @@ app.use('/api/releases', releaseDeleteRouter);
 
 // Insights routes
 app.use('/api/insights', insightRoutes);
+
+// Digest routes
+app.use('/api/digest', digestRoutes);
 
 // Dashboard summary
 app.get('/api/dashboard/summary', auth, async (req, res) => {
