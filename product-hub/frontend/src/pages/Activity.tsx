@@ -158,6 +158,44 @@ function SessionRow({ entry, isLast, onProductClick }: {
           {/* Full task */}
           <p className="text-sm text-neutral-200 leading-relaxed mb-4">{task}</p>
 
+          {/* Built */}
+          {parts['Built'] && (
+            <div className="mb-4">
+              <p className="text-xs text-neutral-600 uppercase tracking-wider mb-2">Built / Changed</p>
+              <ul className="space-y-1">
+                {parts['Built'].split(' · ').map((item, i) => (
+                  <li key={i} className="flex items-start gap-2 text-xs text-neutral-400">
+                    <span className="shrink-0 mt-1 w-1 h-1 rounded-full bg-neutral-600" />
+                    {item}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+
+          {/* Decisions */}
+          {parts['Decisions'] && (
+            <div className="mb-4">
+              <p className="text-xs text-neutral-600 uppercase tracking-wider mb-2">Decisions</p>
+              <ul className="space-y-1">
+                {parts['Decisions'].split(' · ').map((item, i) => (
+                  <li key={i} className="flex items-start gap-2 text-xs text-neutral-400">
+                    <span className="shrink-0 mt-1 w-1 h-1 rounded-full bg-neutral-600" />
+                    {item}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+
+          {/* Current state */}
+          {parts['State'] && (
+            <div className="mb-4">
+              <p className="text-xs text-neutral-600 uppercase tracking-wider mb-1">Current State</p>
+              <p className="text-xs text-neutral-400">{parts['State']}</p>
+            </div>
+          )}
+
           <div className="grid grid-cols-2 gap-x-8 gap-y-3 text-xs">
             {/* Timestamp */}
             <div>
