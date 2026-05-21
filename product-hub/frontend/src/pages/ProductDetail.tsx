@@ -382,6 +382,7 @@ function TaskRow({ task, toggling, onToggle, onDelete, shipped }: TaskRowProps) 
 }
 
 function ActivityRow({ entry }: { entry: Note }) {
+  const [expanded, setExpanded] = useState(false);
   const time = new Date(entry.created_at).toLocaleString('en-US', {
     month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit',
   });
@@ -391,18 +392,53 @@ function ActivityRow({ entry }: { entry: Note }) {
     if (colon !== -1) parts[seg.slice(0, colon).trim()] = seg.slice(colon + 2).trim();
   });
   const task = parts['Task'] ?? entry.content;
-  const tools = parts['Tools'];
+  const hasDetail = parts['Built'] || parts['Decisions'] || parts['State'];
 
   return (
-    <div className="flex gap-3 group">
-      <div className="shrink-0 w-1.5 h-1.5 rounded-full bg-neutral-700 mt-2" />
-      <div className="flex-1 min-w-0">
-        <p className="text-sm text-neutral-300 leading-snug">{task}</p>
-        <div className="flex items-center gap-3 mt-0.5 flex-wrap">
+    <div>
+      <button
+        onClick={() => hasDetail && setExpanded(e => !e)}
+        className={`w-full text-left flex gap-3 group py-1 ${hasDetail ? 'cursor-pointer' : 'cursor-default'}`}
+      >
+        <div className="shrink-0 w-1.5 h-1.5 rounded-full bg-neutral-700 mt-2" />
+        <div className="flex-1 min-w-0">
+          <p className="text-sm text-neutral-300 leading-snug">{task}</p>
           <span className="text-xs text-neutral-600">{time}</span>
-          {tools && <span className="text-xs text-neutral-600">{tools}</span>}
         </div>
-      </div>
+        {hasDetail && (
+          <svg className={`shrink-0 w-3 h-3 text-neutral-700 mt-1.5 transition-transform ${expanded ? 'rotate-90' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+          </svg>
+        )}
+      </button>
+
+      {expanded && hasDetail && (
+        <div className="ml-4 mt-2 mb-1 pl-3 border-l border-neutral-800 space-y-2">
+          {parts['Built'] && (
+            <div>
+              <p className="text-xs text-neutral-600 uppercase tracking-wider mb-1">Built</p>
+              <ul className="space-y-0.5">
+                {parts['Built'].split(' · ').map((item, i) => (
+                  <li key={i} className="text-xs text-neutral-400 flex gap-1.5"><span className="shrink-0 text-neutral-700">—</span>{item}</li>
+                ))}
+              </ul>
+            </div>
+          )}
+          {parts['Decisions'] && (
+            <div>
+              <p className="text-xs text-neutral-600 uppercase tracking-wider mb-1">Decisions</p>
+              <ul className="space-y-0.5">
+                {parts['Decisions'].split(' · ').map((item, i) => (
+                  <li key={i} className="text-xs text-neutral-400 flex gap-1.5"><span className="shrink-0 text-neutral-700">—</span>{item}</li>
+                ))}
+              </ul>
+            </div>
+          )}
+          {parts['State'] && (
+            <p className="text-xs text-neutral-500">{parts['State']}</p>
+          )}
+        </div>
+      )}
     </div>
   );
 }
