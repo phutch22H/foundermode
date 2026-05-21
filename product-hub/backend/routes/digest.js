@@ -262,7 +262,7 @@ router.post('/:id/send', async (req, res) => {
     const resend = new Resend(process.env.RESEND_API_KEY);
 
     await resend.emails.send({
-      from: 'Founder Mode <onboarding@resend.dev>',
+      from: 'Founder Mode <hello@mysquirrel.xyz>',
       to: userEmail,
       subject: `Weekly digest — ${data.period?.from || digest.period_from}`,
       html,
@@ -303,7 +303,7 @@ router.post('/cron', async (req, res) => {
           const resend = new Resend(process.env.RESEND_API_KEY);
           const html = buildEmailHtml(narrative, data, user.email);
           await resend.emails.send({
-            from: 'Founder Mode <onboarding@resend.dev>',
+            from: 'Founder Mode <hello@mysquirrel.xyz>',
             to: user.email,
             subject: `Weekly digest — ${data.period.from}`,
             html,
