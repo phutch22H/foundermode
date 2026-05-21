@@ -114,7 +114,7 @@ async function generateNarrative(data) {
     ? `No activity: ${data.stagnant.map(p => `${p.name}${p.daysSince ? ` (${p.daysSince} days)` : ''}`).join(', ')}`
     : '';
 
-  const prompt = `You are writing a weekly digest for a founder/CEO. Be direct, specific, and brief. Write 3-5 sentences max. Focus on momentum, what actually shipped, and anything that needs attention. Do not use bullet points — write in flowing prose. Sound like a sharp COO briefing, not a status report.
+  const prompt = `You are writing the opening paragraph of a weekly digest for a founder. The detailed breakdown follows separately — do NOT repeat or restate the individual bullets. Instead, write 2-3 sentences that give the overall picture: what kind of week was it, what's the momentum across the portfolio, and is there anything that needs the founder's attention. Be direct and specific. No fluff, no lists.
 
 Last 7 days across the portfolio:
 
