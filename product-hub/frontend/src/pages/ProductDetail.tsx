@@ -109,10 +109,10 @@ export default function ProductDetail() {
     setShowEdit(false);
   }
 
-  const perProjectSnippet = JSON.stringify({ productId: product?.id }, null, 2);
+  const shellCommand = `echo '${JSON.stringify({ productId: product?.id })}' > .founder-mode`;
 
   function copySnippet() {
-    navigator.clipboard.writeText(perProjectSnippet);
+    navigator.clipboard.writeText(shellCommand);
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
   }
@@ -291,13 +291,12 @@ export default function ProductDetail() {
         {showConnect && (
           <div className="border-t border-neutral-800 p-5 space-y-4">
             <p className="text-xs text-neutral-500 leading-relaxed">
-              Drop a <code className="bg-neutral-800 px-1 py-0.5 rounded text-neutral-300">.founder-mode</code> file in your project root.
-              Sessions from that directory will automatically log here.
+              Run this from your project root in the terminal. Sessions from that directory will automatically log here.
             </p>
 
             <div className="relative">
               <pre className="bg-neutral-950 border border-neutral-800 rounded-lg p-4 text-xs text-neutral-400 font-mono overflow-x-auto leading-relaxed">
-                {perProjectSnippet}
+                {shellCommand}
               </pre>
               <button
                 onClick={() => copySnippet()}
