@@ -42,12 +42,12 @@ export default function Navigation() {
       <aside className="hidden md:flex fixed left-0 top-0 h-full w-56 bg-neutral-950 border-r border-neutral-800 flex-col">
         {/* Org header */}
         <div className="px-4 py-4 border-b border-neutral-800 flex items-center justify-between">
-          <div className="flex items-center gap-2.5">
+          <button onClick={() => navigate('/dashboard')} className="flex items-center gap-2.5 hover:opacity-80 transition-opacity">
             <div className="w-6 h-6 rounded-md bg-brand-600 flex items-center justify-center text-white text-xs font-bold shrink-0">
               {initials}
             </div>
             <span className="text-sm font-semibold text-neutral-100 truncate">Founder Mode</span>
-          </div>
+          </button>
         </div>
 
         {/* New product CTA */}
@@ -114,12 +114,12 @@ export default function Navigation() {
 
       {/* Mobile top bar */}
       <header className="md:hidden fixed top-0 left-0 right-0 z-50 bg-neutral-950 border-b border-neutral-800 flex items-center justify-between px-4 h-12">
-        <div className="flex items-center gap-2">
+        <button onClick={() => navigate('/dashboard')} className="flex items-center gap-2 hover:opacity-80 transition-opacity">
           <div className="w-5 h-5 rounded-md bg-brand-600 flex items-center justify-center text-white text-xs font-bold shrink-0">
             {initials}
           </div>
           <span className="text-sm font-semibold text-neutral-100">Founder Mode</span>
-        </div>
+        </button>
         <button
           onClick={() => setMobileOpen(o => !o)}
           className="p-1.5 text-neutral-400 hover:text-neutral-100 transition-colors"
