@@ -84,6 +84,7 @@ async function initDB() {
     // Migrate releases table
     await client.query(`ALTER TABLE releases ADD COLUMN IF NOT EXISTS type VARCHAR(50) DEFAULT 'web'`);
     await client.query(`ALTER TABLE releases ADD COLUMN IF NOT EXISTS build_number VARCHAR(50)`);
+    await client.query(`ALTER TABLE products ADD COLUMN IF NOT EXISTS url TEXT`);
 
     await client.query(`
       CREATE TABLE IF NOT EXISTS digests (

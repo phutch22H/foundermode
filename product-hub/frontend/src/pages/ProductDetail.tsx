@@ -137,7 +137,13 @@ export default function ProductDetail() {
       {/* Product header */}
       <div className="bg-neutral-900 rounded-xl border border-neutral-800 p-6 mb-6">
         <div className="flex items-start justify-between gap-4 mb-4">
-          <h2 className="text-2xl font-semibold text-neutral-100">{product.name}</h2>
+          {product.url ? (
+            <a href={product.url} target="_blank" rel="noopener noreferrer" className="text-2xl font-semibold text-neutral-100 hover:text-brand-400 transition-colors">
+              {product.name} <span className="text-base text-neutral-600">↗</span>
+            </a>
+          ) : (
+            <h2 className="text-2xl font-semibold text-neutral-100">{product.name}</h2>
+          )}
           <div className="flex gap-2 shrink-0">
             <Link to={`/products/${id}/context`} className="text-sm text-neutral-400 border border-neutral-700 hover:bg-neutral-800 hover:text-neutral-200 px-3 py-1.5 rounded-lg transition-colors">Context</Link>
             <button onClick={() => setShowEdit(true)} className="text-sm text-neutral-400 border border-neutral-700 hover:bg-neutral-800 hover:text-neutral-200 px-3 py-1.5 rounded-lg transition-colors">Edit</button>

@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Product } from '../api';
 
-type ProductForm = Pick<Product, 'name' | 'description' | 'status' | 'stage' | 'mrr' | 'active_users'>;
+type ProductForm = Pick<Product, 'name' | 'description' | 'status' | 'stage' | 'mrr' | 'active_users' | 'url'>;
 
 interface ProductModalProps {
   initial?: Partial<Product>;
@@ -24,6 +24,7 @@ export default function ProductModal({ initial, onSave, onClose, title }: Produc
     stage: initial?.stage || 'idea',
     mrr: initial?.mrr || 0,
     active_users: initial?.active_users || 0,
+    url: initial?.url || '',
   });
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState('');
@@ -61,6 +62,17 @@ export default function ProductModal({ initial, onSave, onClose, title }: Produc
               value={form.name}
               onChange={e => setForm(f => ({ ...f, name: e.target.value }))}
               placeholder="My Awesome Product"
+              className={inputClass}
+            />
+          </div>
+
+          <div>
+            <label className={labelClass}>URL</label>
+            <input
+              type="url"
+              value={form.url || ''}
+              onChange={e => setForm(f => ({ ...f, url: e.target.value }))}
+              placeholder="https://myproduct.com"
               className={inputClass}
             />
           </div>

@@ -36,6 +36,7 @@ export interface Product {
   stage: 'idea' | 'validation' | 'mvp' | 'growth' | 'stable';
   mrr: number;
   active_users: number;
+  url: string | null;
   created_at: string;
   updated_at: string;
 }
