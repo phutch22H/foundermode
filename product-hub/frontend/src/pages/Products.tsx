@@ -91,7 +91,6 @@ export default function Products() {
                 <th className="text-left px-5 py-3 text-xs font-semibold text-neutral-500 uppercase tracking-wider">Product</th>
                 <th className="text-left px-4 py-3 text-xs font-semibold text-neutral-500 uppercase tracking-wider">Status</th>
                 <th className="text-left px-4 py-3 text-xs font-semibold text-neutral-500 uppercase tracking-wider">Stage</th>
-                <th className="text-right px-4 py-3 text-xs font-semibold text-neutral-500 uppercase tracking-wider">MRR</th>
                 <th className="text-right px-4 py-3 text-xs font-semibold text-neutral-500 uppercase tracking-wider">Users</th>
                 <th className="px-4 py-3" />
               </tr>
@@ -119,17 +118,6 @@ export default function Products() {
                     <span className={`text-xs font-medium px-2 py-0.5 rounded-full ${STAGE_COLORS[product.stage] || ''}`}>
                       {product.stage}
                     </span>
-                  </td>
-                  <td className="px-4 py-4 text-right">
-                    <input
-                      type="number"
-                      defaultValue={product.mrr}
-                      onBlur={e => {
-                        const val = parseFloat(e.target.value) || 0;
-                        if (val !== product.mrr) handleInlineEdit(product, 'mrr', val);
-                      }}
-                      className="text-right w-24 bg-transparent border border-transparent hover:border-neutral-700 focus:border-brand-500 focus:outline-none rounded px-1 py-0.5 text-sm text-neutral-300"
-                    />
                   </td>
                   <td className="px-4 py-4 text-right">
                     <input

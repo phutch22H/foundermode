@@ -154,11 +154,7 @@ export default function ProductDetail() {
           <span className={`text-xs font-medium px-2.5 py-1 rounded-full ${STAGE_COLORS[product.stage] || ''}`}>{product.stage}</span>
         </div>
 
-        <div className="grid grid-cols-4 gap-4">
-          <div className="text-center p-4 bg-neutral-800/50 rounded-lg">
-            <p className="text-2xl font-bold text-neutral-100">${(product.mrr || 0).toLocaleString()}</p>
-            <p className="text-xs text-neutral-500 mt-1">MRR</p>
-          </div>
+        <div className="grid grid-cols-3 gap-4">
           <div className="text-center p-4 bg-neutral-800/50 rounded-lg">
             <p className="text-2xl font-bold text-neutral-100">{(product.active_users || 0).toLocaleString()}</p>
             <p className="text-xs text-neutral-500 mt-1">Users</p>

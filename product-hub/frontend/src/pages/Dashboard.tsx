@@ -62,9 +62,8 @@ export default function Dashboard() {
       </div>
 
       {/* Metrics */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+      <div className="grid grid-cols-2 lg:grid-cols-3 gap-4 mb-8">
         <MetricCard label="Total Products" value={summary?.totalProducts ?? 0} />
-        <MetricCard label="Total MRR" value={`$${(summary?.totalMrr ?? 0).toLocaleString()}`} sub="monthly recurring revenue" />
         <MetricCard label="Total Users" value={(summary?.totalUsers ?? 0).toLocaleString()} />
         <MetricCard
           label="Shipped"
