@@ -15,7 +15,7 @@ function ProtectedLayout({ children }: { children: React.ReactNode }) {
   return (
     <div className="min-h-screen flex">
       <Navigation />
-      <main className="flex-1 ml-56 p-8">{children}</main>
+      <main className="flex-1 md:ml-56 pt-12 md:pt-0 p-4 md:p-8">{children}</main>
     </div>
   );
 }
