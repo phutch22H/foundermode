@@ -2,6 +2,7 @@ require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const path = require('path');
+const httpProxy = require('http-proxy');
 const { initDB, pool } = require('./db');
 const authRoutes = require('./routes/auth');
 const productRoutes = require('./routes/products');
@@ -188,6 +189,19 @@ app.get('/api/export/csv', auth, async (req, res) => {
     res.status(500).json({ error: 'Server error' });
   }
 });
+
+// Proxy /smile to the smile service
+if (process.env.SMILE_URL) {
+  const smileProxy = httpProxy.createProxyServer({ changeOrigin: true });
+  smileProxy.on('error', (err, req, res) => {
+    console.error('Smile proxy error:', err.message);
+    res.writeHead(502).end('Smile service unavailable');
+  });
+  app.use('/smile', (req, res) => {
+    req.url = '/smile' + req.url;
+    smileProxy.web(req, res, { target: process.env.SMILE_URL });
+  });
+}
 
 // Serve frontend in production
 if (process.env.NODE_ENV === 'production') {
